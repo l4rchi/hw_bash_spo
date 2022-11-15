@@ -6,8 +6,8 @@ read num
 
 int='^[0-9]+$'
 if ! [[ $num =~ $int ]]; then
-	echo "Error: Write integer number"
-	exit 1
+        echo "Error: Write integer number"
+        exit 1
 fi
 if [[ $num -lt 1 ]]; then
         echo "Error: The entered number must be greatest then 1:"
@@ -22,7 +22,6 @@ for (( i=1;i<=$num ;i++)); do
    done
    for (( c=1;c<=i;c++ )); do
    echo -n " *"
-   sum=`expr $sum + 1`
    done
 echo ""
 done
@@ -36,7 +35,7 @@ for (( i=$d_max;i>=1;i--)); do
    done
    for (( c=1;c<=i;c++ )); do
    echo -n " *"
-   sum=`expr $sum + 1`
    done
 echo ""
 done
+
