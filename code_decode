@@ -1,0 +1,68 @@
+#!/bin/bash
+
+#check arg
+
+echo "Write your number: "
+
+read number
+
+if ! [[ "$number" =~ ^[0-9]+$ ]]
+    then
+        echo "Sorry integers only"
+fi
+if [[ $number -lt 1 ]]; then
+        echo "No arguments"
+        exit 1
+fi
+
+echo "<<< Run script >>>"
+
+#main programm
+function code_decode {
+	copied=$number
+	len=${#copied}
+	decode=
+	echo -e  "\n----------------"
+	echo -e "\nNumber is encode: "
+	for (( i = 0; i <len ;i++)); do
+		elem=${copied:$i:1}
+		if [ $elem -ge 0 ] && [ $elem -lt 2 ]; then
+			k="1"
+		elif [ $elem -ge 2 ] &&	[ $elem -lt 4 ]; then
+			k="01"
+		elif [ $elem -ge 4 ] && [ $elem -lt 8 ]; then
+			k="001"
+		else
+			k="0001"
+		fi
+		string=
+		if [ $elem -eq 0 ]; then
+			string="0"
+		else
+			while [ $elem -gt 0 ]; do
+				if [ $(( $elem %2 )) -eq 0 ]; then
+					string+="0"
+				else
+					string+="1"
+				fi
+				elem=$(( $elem / 2))
+			done
+		fi
+		encode= 
+		for ((j=$(( ${#string} - 1 )); j >= 0 ;j--)); do
+			encode+=${string:$j:1}
+		done
+		k+=$encode
+		echo -n "$k"
+		decode+=$(( 2#$encode ))
+	done
+	echo -e  "\n----------------"
+	echo -e "\nDecode number: "
+	echo $decode
+	echo "<<< Over the programm >>>"
+}
+res=$(code_decode $number)
+echo -e "\n$res"
+trap "echo Goodbye..." EXIT
+exit 0
+
